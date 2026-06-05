@@ -136,6 +136,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 fee: "₹100",
                 prize: "₹5,000",
                 color: Colors.blue,
+                imageUrl: "https://cdn.shopify.com/s/files/1/1423/4386/products/championship_1st_1024x1024.png?v=1539811099",
               ),
 
               gameCard(
@@ -144,6 +145,8 @@ class _HomeScreenState extends State<HomeScreen> {
                 fee: "₹200",
                 prize: "₹10,000",
                 color: Colors.green,
+                imageUrl: "https://cdn11.bigcommerce.com/s-3c8l9ljcjn/images/stencil/1280x1280/products/31008/40337/83D0118-CaromGame3500__80388.1732066271.jpg?c=1",
+
               ),
 
               const SizedBox(height: 30),
@@ -211,6 +214,7 @@ Widget gameCard({
   required String fee,
   required String prize,
   required Color color,
+  required String imageUrl,
 }) {
   return Container(
     margin: const EdgeInsets.only(bottom: 14),
@@ -225,109 +229,129 @@ Widget gameCard({
         ),
       ],
     ),
-    child: Row(
+    child: Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Container(
-          width: 10,
-          height: 110,
-          decoration: BoxDecoration(
-            color: color,
-            borderRadius: const BorderRadius.only(
-              topLeft: Radius.circular(20),
-              bottomLeft: Radius.circular(20),
-            ),
+
+        /// IMAGE SECTION (TOP)
+        ClipRRect(
+          borderRadius: const BorderRadius.only(
+            topLeft: Radius.circular(20),
+            topRight: Radius.circular(20),
           ),
-        ),
+          child: Stack(
+            children: [
+              Image.network(
+                imageUrl,
+                height: 140,
+                width: double.infinity,
+                fit: BoxFit.cover,
+              ),
 
-        const SizedBox(width: 12),
+              /// DARK GRADIENT OVER IMAGE
+              Container(
+                height: 140,
+                decoration: BoxDecoration(
+                  gradient: LinearGradient(
+                    begin: Alignment.bottomCenter,
+                    end: Alignment.topCenter,
+                    colors: [
+                      Colors.black.withOpacity(0.6),
+                      Colors.transparent,
+                    ],
+                  ),
+                ),
+              ),
 
-        /// ICON
-        Container(
-          height: 55,
-          width: 55,
-          decoration: BoxDecoration(color: color.withOpacity(0.12), shape: BoxShape.circle),
-          child: Icon(Icons.sports_esports, color: color, size: 30),
-        ),
-
-        const SizedBox(width: 12),
-
-        /// DETAILS
-        Expanded(
-          child: Padding(
-            padding: const EdgeInsets.symmetric(vertical: 12),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                /// BADGE
-                Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+              /// BADGE ON IMAGE
+              Positioned(
+                left: 10,
+                top: 10,
+                child: Container(
+                  padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
                   decoration: BoxDecoration(
-                    color: color.withOpacity(0.1),
+                    color: color,
                     borderRadius: BorderRadius.circular(20),
                   ),
-                  child: Text(
+                  child: const Text(
                     "TOURNAMENT",
                     style: TextStyle(
+                      color: Colors.white,
                       fontSize: 10,
-                      color: color,
                       fontWeight: FontWeight.bold,
-                      letterSpacing: 1,
                     ),
                   ),
                 ),
-
-                const SizedBox(height: 6),
-
-                /// TITLE
-                Text(
-                  title,
-                  style: const TextStyle(
-                    fontSize: 16,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.black,
-                  ),
-                ),
-
-                const SizedBox(height: 6),
-
-                /// FEE + PRIZE
-                Row(
-                  children: [
-                    Text("Fee: $fee", style: const TextStyle(fontSize: 12, color: Colors.grey)),
-                    const SizedBox(width: 10),
-                    Text(
-                      "Prize: $prize",
-                      style: const TextStyle(
-                        fontSize: 12,
-                        color: Colors.green,
-                        fontWeight: FontWeight.w600,
-                      ),
-                    ),
-                  ],
-                ),
-              ],
-            ),
+              ),
+            ],
           ),
         ),
 
-        /// JOIN BUTTON
+        /// CONTENT SECTION (BOTTOM)
         Padding(
-          padding: const EdgeInsets.only(right: 10),
-          child: ElevatedButton(
-            onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (_) => const RegistrationScreen()),
-              );
-            },
-            style: ElevatedButton.styleFrom(
-              backgroundColor: color,
-              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
-              padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 10),
-              elevation: 0,
-            ),
-            child: const Text("Resister", style: TextStyle(color: Colors.white)),
+          padding: const EdgeInsets.all(12),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+
+              /// TITLE
+              Text(
+                title,
+                style: const TextStyle(
+                  fontSize: 16,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.black,
+                ),
+              ),
+
+              const SizedBox(height: 6),
+
+              /// FEE + PRIZE
+              Row(
+                children: [
+                  Text(
+                    "Fee: $fee",
+                    style: const TextStyle(fontSize: 12, color: Colors.grey),
+                  ),
+                  const SizedBox(width: 12),
+                  Text(
+                    "Prize: $prize",
+                    style: const TextStyle(
+                      fontSize: 12,
+                      color: Colors.green,
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
+                ],
+              ),
+
+              const SizedBox(height: 12),
+
+              /// BUTTON
+              SizedBox(
+                width: double.infinity,
+                child: ElevatedButton(
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (_) => const RegistrationScreen(),
+                      ),
+                    );
+                  },
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: color,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                  ),
+                  child: const Text(
+                    "Register",
+                    style: TextStyle(color: Colors.white),
+                  ),
+                ),
+              ),
+            ],
           ),
         ),
       ],
