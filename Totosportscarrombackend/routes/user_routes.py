@@ -8,7 +8,8 @@ class User(BaseModel):
     name: str
     phone: str
 
-@router.post("/login")
+
+@router.post("/user")
 def login(user: User):
 
     conn = get_connection()
@@ -26,7 +27,7 @@ def login(user: User):
     conn.close()
 
     return {"message": "Login successful"}
-@router.get("/login")
+@router.get("/user")
 def get_users():
     conn=get_connection()
     cursor=conn.cursor()
