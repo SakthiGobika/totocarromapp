@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'home_screen.dart';
 import 'main_screen.dart';
+import 'dart:convert';
+import 'package:http/http.dart' as http;
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -39,11 +41,27 @@ class _LoginScreenState extends State<LoginScreen> {
     showMsg("OTP Sent : $generatedOtp");
   }
 
-  void login() {
+// API CALL TO LOGIN USER
+
+
+  Future<void> login() async {
     if (otpController.text != generatedOtp) {
       showMsg("Invalid OTP");
       return;
     }
+
+    final response = await http.post(
+  Uri.parse("http://localhost:8000/user"),
+  headers: {
+    "Content-Type": "application/json",
+  },
+  body: jsonEncode({
+    "name": nameController.text.trim(),
+    "phone": phoneController.text.trim(),
+  }),
+);
+
+print(response.body);
 
     showMsg("Login Success");
 
